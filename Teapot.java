@@ -12,7 +12,7 @@ public class Teapot extends Utensil {
     private double capacity;
     private boolean isFull;
 
-    public Teapot(String id, String name, String material, double capacity) {
+    public Teapot(String id, String name, Material material, double capacity) {
         super(id, name, material);
         this.capacity = capacity;
         this.isFull = false;
@@ -44,6 +44,12 @@ public class Teapot extends Utensil {
     public void use() {
         System.out.println("Đang dùng ấm " + getName() + " để hãm trà.");
     }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getName() + "," + getMaterial().name() + "," + capacity;
+    }
+    
 }
 
 
