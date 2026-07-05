@@ -16,77 +16,51 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
-        System.out.println("====== HỆ THỐNG QUẢN LÝ KHO TRÀ ======");
-
         do {
-            System.out.println("\n--- MENU LỰA CHỌN ---");
-            System.out.println("1. Nhập và thêm mới một loại TRÀ");
-            System.out.println("2. Nhập và thêm mới một ẤM TRÀ (Utensil)");
-            System.out.println("3. Xem báo cáo tồn kho hiện tại");
-            System.out.println("4. Thử nghiệm sử dụng Ấm trà đầu tiên trong kho");
+            System.out.println("--- MENU QUẢN LÝ ---");
+            System.out.println("1. Thêm mới TRÀ");
+            System.out.println("2. Thêm mới ẤM TRÀ");
+            System.out.println("3. Kiểm tra TỒN KHO (Tự động load file cũ)");
             System.out.println("0. Thoát chương trình");
-            System.out.print("Chọn chức năng (0-4): ");
-
+            System.out.print("Chọn chức năng: ");
             choice = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
-                    System.out.println("\n[NHẬP THÔNG TIN TRÀ]");
-                    System.out.print("Nhập mã số trà (ID): ");
-                    String teaId = scanner.nextLine();
-                    System.out.print("Nhập tên/loại trà (VD: Trà Ô Long): ");
-                    String teaType = scanner.nextLine();
-                    System.out.print("Nhập khối lượng (grams): ");
-                    double weight = scanner.nextDouble();
-
-                    Tea newTea = new Tea(teaId, teaType, weight);
-                    inventory.addTea(newTea);
+                    System.out.print("Nhập ID Trà: "); String teaId = scanner.nextLine();
+                    System.out.print("Nhập tên Trà: "); String teaType = scanner.nextLine();
+                    System.out.print("Nhập khối lượng (g): "); double weight = scanner.nextDouble();
+                    inventory.addTea(new Tea(teaId, teaType, weight));
                     break;
 
                 case 2:
-                    System.out.println("\n[NHẬP THÔNG TIN ẤM TRÀ]");
-                    System.out.print("Nhập mã dụng cụ (ID): ");
-                    String potId = scanner.nextLine();
-                    System.out.print("Nhập tên ấm (VD: Ấm Tử Sa): ");
-                    String potName = scanner.nextLine();
-                    System.out.print("Nhập chất liệu (VD: Đất sét, Sứ): ");
-                    String material = scanner.nextLine();
-                    System.out.print("Nhập dung tích ấm (ml): ");
-                    double capacity = scanner.nextDouble();
+                    System.out.print("Nhập ID Ấm: "); String potId = scanner.nextLine();
+                    System.out.print("Nhập tên Ấm: "); String potName = scanner.nextLine();
+                    
+                    System.out.println("Chọn chất liệu ấm:");
+                    Material[] materials = Material.values();
+                    for (int i = 0; i < materials.length; i++) {
+                        System.out.println("  " + (i + 1) + ". " + materials[i].getDisplayName());
+                    }
+                    System.out.print("Nhập số lựa chọn: ");
+                    int matChoice = scanner.nextInt();
+                    Material selectedMaterial = materials[matChoice - 1]; // Lấy đúng enum theo index
 
-                    Teapot newTeapot = new Teapot(potId, potName, material, capacity);
-                    inventory.addUtensil(newTeapot);
+                    System.out.print("Nhập dung tích (ml): "); double capacity = scanner.nextDouble();
+                    
+                    inventory.addUtensil(new Teapot(potId, potName, selectedMaterial, capacity));
                     break;
 
                 case 3:
                     inventory.checkStock();
                     break;
-
-                case 4:
-                    if (!inventory.getUtensils().isEmpty()) {
-                        System.out.println("\n[THỬ NGHIỆM HÀNH ĐỘNG ẤM TRÀ]");
-                        Utensil u = inventory.getUtensils().get(0);
-                        if (u instanceof Teapot) {
-                            Teapot pot = (Teapot) u;
-                            pot.use();
-                            pot.fill();
-                            pot.pour();
-                        } else {
-                            System.out.println("Dụng cụ đầu tiên không phải là ấm trà!");
-                        }
-                    } else {
-                        System.out.println("\nHện tại trong kho chưa có ấm trà nào! Vui lòng chọn 2 để nhập trước.");
-                    }
-                    break;
-
                 case 0:
-                    System.out.println("Cảm ơn bạn đã sử dụng chương trình!");
+                    System.out.println("Đã thoát ứng dụng.");
                     break;
-
                 default:
-                    System.out.println("Lựa chọn không hợp lệ! Vui lòng nhập lại từ 0 đến 4.");
+                    System.out.println("Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
-}
+    }
