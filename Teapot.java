@@ -12,6 +12,9 @@ public class Teapot extends Utensil {
     private double capacity;
     private boolean isFull;
 
+    public Tea() {
+    }
+
     public Teapot(String id, String name, Material material, double capacity) {
         super(id, name, material);
         this.capacity = capacity;
