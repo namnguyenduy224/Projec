@@ -11,12 +11,12 @@ public abstract class Utensil {
     
     private String id;
     private String name;
-    private String material;
+    private Material material;  
 
     public Utensil() {
     }
 
-    public Utensil(String id, String name, String material) {
+    public Utensil(String id, String name,  material) {
         this.id = id;
         this.name = name;
         this.material = material;
@@ -24,7 +24,7 @@ public abstract class Utensil {
 
     public String getId() { return id; }
     public String getName() { return name; }
-    public String getMaterial() { return material; }
+    public Material getMaterial() { return material; }
 
     public abstract void use();
     
