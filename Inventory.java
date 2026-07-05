@@ -12,36 +12,50 @@ public class Inventory {
     
     private List<Tea> teas;
     private List<Utensil> utensils;
+    private final InventoryRepository repository;
 
     public Inventory() {
-        this.teas = new ArrayList<>();
-        this.utensils = new ArrayList<>();
+        this.repository = new InventoryRepository();
+        this.teas = repository.loadTeas();
+        this.utensils = repository.loadTeapots();
     }
 
     public void addTea(Tea tea) {
         teas.add(tea);
-        System.out.println("Đã thêm vào kho: " + tea.getType());
+        save(); 
     }
 
     public void addUtensil(Utensil utensil) {
         utensils.add(utensil);
-        System.out.println("Đã thêm dụng cụ vào kho: " + utensil.getName());
+        save();
+    }
+
+    public void save() {
+        repository.saveInventory(teas, utensils);
     }
 
     public List<Tea> getTeas() { return teas; }
     public List<Utensil> getUtensils() { return utensils; }
 
     public void checkStock() {
-        System.out.println("\n--- BÁO CÁO TỒN KHO ---");
-        System.out.println("Các loại trà:");
+        System.out.println("\n=== BÁO CÁO TỒN KHO HIỆN TẠI ===");
+        System.out.println("[Danh sách các loại Trà]:");
+        if (teas.isEmpty()) System.out.println("  (Kho trống)");
         for (Tea t : teas) {
-            System.out.println("- " + t.getType() + ": " + t.getWeight() + "g");
+            System.out.println("  - Mã: " + t.getId() + " | " + t.getType() + " | Khối lượng: " + t.getWeight() + "g");
         }
-        System.out.println("Các dụng cụ:");
+
+        System.out.println("[Danh sách Ấm Trà]:");
+        if (utensils.isEmpty()) System.out.println("  (Kho trống)");
         for (Utensil u : utensils) {
-            System.out.println("- " + u.getName() + " (" + u.getMaterial() + ")");
+            if (u instanceof Teapot) {
+                Teapot pot = (Teapot) u;
+                System.out.println("  - Mã: " + pot.getId() + " | " + pot.getName() 
+                        + " | Chất liệu: " + pot.getMaterial().getDisplayName() 
+                        + " | Dung tích: " + pot.getCapacity() + "ml");
+            }
         }
-        System.out.println("-----------------------\n");
+        System.out.println("================================\n");
     }
     
 }
