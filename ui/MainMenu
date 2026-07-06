@@ -1,0 +1,77 @@
+package ui;
+
+import java.util.Scanner;
+
+public class MainMenu {
+    private Scanner scanner = new Scanner(System.in);
+
+    public void show() {
+        while (true) {
+            clearScreen();
+            System.out.println("=========================================");
+            System.out.println("       QUẢN LÝ TIỆM TRÀ - MAIN MENU      ");
+            System.out.println("=========================================");
+            System.out.println("1. Quản lý Trà");
+            System.out.println("2. Quản lý Ấm trà (Teapot)");
+            System.out.println("3. Quản lý Đồ dùng (Utensil)");
+            System.out.println("4. Quản lý Kho hàng");
+            System.out.println("5. Tìm kiếm");
+            System.out.println("6. Thống kê");
+            System.out.println("7. Xuất / Nhập dữ liệu");
+            System.out.println("0. Thoát chương trình");
+            System.out.println("=========================================");
+            System.out.print("Nhập lựa chọn: ");
+
+            int choice = getValidInt();
+
+            switch (choice) {
+                case 1: teaMenu(); break;
+                case 2: teapotMenu(); break;
+                case 3: utensilMenu(); break;
+                case 4: inventoryMenu(); break;
+                case 5: searchMenu(); break;
+                case 6: statisticMenu(); break;
+                case 7: exportImportMenu(); break;
+                case 0: 
+                    System.out.println("Cảm ơn bạn đã sử dụng chương trình!");
+                    return;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ!");
+            }
+            
+            pause();
+        }
+    }
+
+    // Các menu con (sẽ triển khai sau)
+    private void teaMenu() {
+        System.out.println("Đang vào Menu Quản lý Trà...");
+        // TODO: Gọi TeaMenu
+    }
+
+    private void teapotMenu() { System.out.println("Menu Teapot..."); }
+    private void utensilMenu() { System.out.println("Menu Utensil..."); }
+    private void inventoryMenu() { System.out.println("Menu Kho hàng..."); }
+    private void searchMenu() { System.out.println("Menu Tìm kiếm..."); }
+    private void statisticMenu() { System.out.println("Menu Thống kê..."); }
+    private void exportImportMenu() { System.out.println("Menu Xuất/Nhập..."); }
+
+    private int getValidInt() {
+        while (!scanner.hasNextInt()) {
+            System.out.print("Vui lòng nhập số: ");
+            scanner.next();
+        }
+        return scanner.nextInt();
+    }
+
+    private void pause() {
+        System.out.println("Nhấn Enter để tiếp tục...");
+        scanner.nextLine();
+        scanner.nextLine();
+    }
+
+    private void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+}
