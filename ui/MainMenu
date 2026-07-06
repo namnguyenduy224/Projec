@@ -4,60 +4,79 @@ import java.util.Scanner;
 
 public class MainMenu {
 
-    private Scanner scanner = new Scanner(System.in);
+   public static void main(String[] args) {
 
-    public void show() {
-        while (true) {
-            clearScreen();
-            System.out.println("========================================");
-            System.out.println("       QUẢN LÝ TIỆM TRÀ - MENU CHÍNH     ");
-            System.out.println("========================================");
-            System.out.println("1. Quản lý Trà");
-            System.out.println("2. Quản lý Ấm Trà");
-            System.out.println("3. Quản lý Đồ Dùng");
-            System.out.println("4. Quản lý Kho Hàng");
-            System.out.println("5. Tìm Kiếm");
-            System.out.println("6. Thống Kê");
-            System.out.println("7. Xuất / Nhập Dữ Liệu");
-            System.out.println("0. Thoát");
-            System.out.println("========================================");
-            System.out.print("Nhập lựa chọn: ");
+        Inventory inventory = new Inventory();
+        Scanner scanner = new Scanner(System.in);
+        int choice;
 
-            int luaChon = nhapSo();
+        do {
+            System.out.println("===== HỆ THỐNG QUẢN LÝ CỬA HÀNG TRÀ =====");
+            System.out.println("1. Thêm mới nguyên liệu TRÀ");
+            System.out.println("2. Thêm mới dụng cụ ẤM TRÀ");
+            System.out.println("3. Kiểm tra TỒN KHO TOÀN DIỆN");
+            System.out.println("0. Thoát chương trình");
+            System.out.print("Vui lòng chọn chức năng (0-3): ");
+            
+            choice = scanner.nextInt();
+            scanner.nextLine(); 
 
-            switch (luaChon) {
+            switch (choice) {
                 case 1:
-                    menuQuanLyTra();
+                    System.out.println("\n--- NHẬP THÔNG TIN TRÀ ---");
+                    System.out.print("Nhập mã Trà (ID): "); 
+                    String teaId = scanner.nextLine();
+                    System.out.print("Nhập tên/loại Trà (VD: Trà Thiết Quan Âm): "); 
+                    String teaType = scanner.nextLine();
+                    System.out.print("Nhập khối lượng nhập kho (grams): "); 
+                    double weight = scanner.nextDouble();
+                    
+                    inventory.addTea(new Tea(teaId, teaType, weight));
                     break;
-                case 2:
-                    menuQuanLyAmTra();
-                    break;
-                case 3:
-                    menuQuanLyDoDung();
-                    break;
-                case 4:
-                    menuQuanLyKho();
-                    break;
-                case 5:
-                    menuTimKiem();
-                    break;
-                case 6:
-                    menuThongKe();
-                    break;
-                case 7:
-                    menuXuatNhap();
-                    break;
-                case 0:
-                    System.out.println("Cảm ơn bạn đã sử dụng chương trình!");
-                    return;
-                default:
-                    System.out.println("Lựa chọn không đúng! Vui lòng chọn lại.");
-            }
 
-            System.out.println("\nNhấn Enter để tiếp tục...");
-            scanner.nextLine();
-        }
+                case 2:
+                    System.out.println("\n--- NHẬP THÔNG TIN ẤM TRÀ ---");
+                    System.out.print("Nhập mã Ấm (ID): "); 
+                    String potId = scanner.nextLine();
+                    System.out.print("Nhập tên Ấm trà (VD: Ấm Tây Thi): "); 
+                    String potName = scanner.nextLine();
+                    
+                    System.out.println("Chọn chất liệu chế tác ấm:");
+                    Material[] materials = Material.values();
+                    for (int i = 0; i < materials.length; i++) {
+                        System.out.println("  " + (i + 1) + ". " + materials[i].getDisplayName());
+                    }
+                    System.out.print("Nhập số tương ứng (1-" + materials.length + "): ");
+                    int matChoice = scanner.nextInt();
+                    
+                    if (matChoice < 1 || matChoice > materials.length) {
+                        System.out.println("Lựa chọn sai! Mặc định chọn chất liệu đầu tiên.");
+                        matChoice = 1;
+                    }
+                    Material selectedMaterial = materials[matChoice - 1];
+
+                    System.out.print("Nhập dung tích ấm (ml): "); 
+                    double capacity = scanner.nextDouble();
+                    
+                    inventory.addTeapot(new Teapot(potId, potName, selectedMaterial, capacity));
+                    break;
+
+                case 3:
+                    inventory.checkStock();
+                    break;
+
+                case 0:
+                    System.out.println("\n>> Đang đóng hệ thống và bảo mật dữ liệu. Tạm biệt!");
+                    break;
+
+                default:
+                    System.out.println("Lựa chọn không hợp lệ! Vui lòng chọn lại từ 0 đến 3.");
+            }
+            System.out.println();
+        } while (choice != 0);
+
     }
+}
 
     // ==================== MENU CON ====================
 
