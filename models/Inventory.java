@@ -10,32 +10,32 @@ import java.util.List;
  */
 public class Inventory {
     
-    private List<Tea> teas;
-    private List<Utensil> utensils;
-    private final InventoryRepository repository;
+   private List<Tea> teas;
+    private List<Teapot> teapots; 
+    
+    private final TeaRepository teaRepository;
+    private final TeapotRepository teapotRepository;
 
     public Inventory() {
-        this.repository = new InventoryRepository();
-        this.teas = repository.loadTeas();
-        this.utensils = repository.loadTeapots();
+        this.teaRepository = new TeaRepository();
+        this.teapotRepository = new TeapotRepository();
+
+        this.teas = teaRepository.loadAll();
+        this.teapots = teapotRepository.loadAll();
     }
 
     public void addTea(Tea tea) {
         teas.add(tea);
-        save(); 
+        teaRepository.saveAll(teas); 
     }
 
-    public void addUtensil(Utensil utensil) {
-        utensils.add(utensil);
-        save();
-    }
-
-    public void save() {
-        repository.saveInventory(teas, utensils);
+    public void addTeapot(Teapot teapot) {
+        teapots.add(teapot);
+        teapotRepository.saveAll(teapots); 
     }
 
     public List<Tea> getTeas() { return teas; }
-    public List<Utensil> getUtensils() { return utensils; }
+    public List<Teapot> getTeapots() { return teapots; }
 
     public void checkStock() {
         System.out.println("\n=== BÁO CÁO TỒN KHO HIỆN TẠI ===");
@@ -46,16 +46,12 @@ public class Inventory {
         }
 
         System.out.println("[Danh sách Ấm Trà]:");
-        if (utensils.isEmpty()) System.out.println("  (Kho trống)");
-        for (Utensil u : utensils) {
-            if (u instanceof Teapot) {
-                Teapot pot = (Teapot) u;
-                System.out.println("  - Mã: " + pot.getId() + " | " + pot.getName() 
-                        + " | Chất liệu: " + pot.getMaterial().getDisplayName() 
-                        + " | Dung tích: " + pot.getCapacity() + "ml");
-            }
+        if (teapots.isEmpty()) System.out.println("  (Kho trống)");
+        for (Teapot pot : teapots) {
+            System.out.println("  - Mã: " + pot.getId() + " | " + pot.getName() 
+                    + " | Chất liệu: " + pot.getMaterial().getDisplayName() 
+                    + " | Dung tích: " + pot.getCapacity() + "ml");
         }
         System.out.println("================================\n");
     }
-    
 }
