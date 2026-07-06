@@ -71,4 +71,12 @@ public class Validator {
             throw new IllegalArgumentException(fieldName + " phai lon hon 0");
         }
     }
+
+    public static boolean isNonNegative(int value) {
+        return value >= 0;
+    }
+
+    public static boolean isNonNegative(double value) {
+        return value >= 0;
+    }
 }
