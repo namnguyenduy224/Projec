@@ -82,4 +82,14 @@ public class InventoryRepository {
         return utensils;
     }
 
+    private List<Inventory> inventories = new ArrayList<>();
+
+    public List<Inventory> getAll() {
+        return inventories;
+    }
+
+    public void saveAll(List<Inventory> inventories) {
+        this.inventories = inventories;
+    }
+    
 }
