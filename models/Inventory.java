@@ -11,71 +11,49 @@ import java.util.List;
 public class Inventory {
     
     private List<Tea> teas;
-    private List<Teapot> teapots; 
+    private List<Teapot> teapots;
     
     private final TeaRepository teaRepository;
     private final TeapotRepository teapotRepository;
 
-    private String itemId;
-    private String itemName;
-    private int quantity;
-    private String unit;
-
-    public Inventory(String itemId, String itemName, int quantity, String unit) {
-        this.itemId = itemId;
-        this.itemName = itemName;
-        this.quantity = quantity;
-        this.unit = unit;
-    }
-
-    public String getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-    
     public Inventory() {
         this.teaRepository = new TeaRepository();
         this.teapotRepository = new TeapotRepository();
-
         this.teas = teaRepository.loadAll();
         this.teapots = teapotRepository.loadAll();
     }
 
     public void addTea(Tea tea) {
         teas.add(tea);
-        teaRepository.saveAll(teas); 
+        teaRepository.saveAll(teas);
     }
 
     public void addTeapot(Teapot teapot) {
         teapots.add(teapot);
-        teapotRepository.saveAll(teapots); 
+        teapotRepository.saveAll(teapots);
+    }
+
+    public void backupAll() {
+        System.out.println("\n--- TIẾN TRÌNH SAO LƯU HỆ THỐNG ---");
+        String res1 = teaRepository.backup();
+        String res2 = teapotRepository.backup();
+        System.out.println(res1);
+        System.out.println(res2);
+        System.out.println("------------------------------------");
+    }
+
+    public void restoreTea(String filePath) {
+        if (teaRepository.restore(filePath)) {
+            this.teas = teaRepository.loadAll(); 
+            System.out.println(">> Đã đồng bộ lại danh sách Trà trên bộ nhớ hệ thống.");
+        }
+    }
+
+    public void restoreTeapot(String filePath) {
+        if (teapotRepository.restore(filePath)) {
+            this.teas = teaRepository.loadAll(); 
+            System.out.println(">> Đã đồng bộ lại danh sách Ấm trà trên bộ nhớ hệ thống.");
+        }
     }
 
     public List<Tea> getTeas() { return teas; }
