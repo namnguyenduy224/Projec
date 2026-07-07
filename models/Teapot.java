@@ -12,7 +12,7 @@ public class Teapot extends Utensil {
     private double capacity;
     private boolean isFull;
 
-    public Tea() {
+    public Teapot() {
     }
 
     public Teapot(String id, String name, Material material, double capacity) {
