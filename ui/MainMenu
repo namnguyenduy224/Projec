@@ -1,147 +1,38 @@
 package ui;
 
-import java.util.Scanner;
+import services.TeaService;
+import services.TeaPotService;
 
 public class MainMenu {
+    private TeaService teaService = new TeaService();
+    private TeaPotService teapotService = new TeaPotService();
 
-   public static void main(String[] args) {
+    private MenuQuanLyTra menuTra = new MenuQuanLyTra(teaService);
+    private MenuQuanLyAm menuAm = new MenuQuanLyAm(teapotService);
 
-        Inventory inventory = new Inventory();
-        Scanner scanner = new Scanner(System.in);
+    public void hienThiMenuChinh() {
+        Scanner sc = new Scanner(System.in);
         int choice;
 
         do {
-            System.out.println("===== HỆ THỐNG QUẢN LÝ CỬA HÀNG TRÀ =====");
-            System.out.println("1. Thêm mới nguyên liệu TRÀ");
-            System.out.println("2. Thêm mới dụng cụ ẤM TRÀ");
-            System.out.println("3. Kiểm tra TỒN KHO TOÀN DIỆN");
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("          HỆ THỐNG QUẢN LÝ TRÀ & ẤM");
+            System.out.println("=".repeat(50));
+            System.out.println("1. Quản lý Trà");
+            System.out.println("2. Quản lý Ấm");
             System.out.println("0. Thoát chương trình");
-            System.out.print("Vui lòng chọn chức năng (0-3): ");
-            
-            choice = scanner.nextInt();
-            scanner.nextLine(); 
+            System.out.println("=".repeat(50));
+            System.out.print("Chọn: ");
+
+            choice = sc.nextInt();
+            sc.nextLine();
 
             switch (choice) {
-                case 1:
-                    System.out.println("\n--- NHẬP THÔNG TIN TRÀ ---");
-                    System.out.print("Nhập mã Trà (ID): "); 
-                    String teaId = scanner.nextLine();
-                    System.out.print("Nhập tên/loại Trà (VD: Trà Thiết Quan Âm): "); 
-                    String teaType = scanner.nextLine();
-                    System.out.print("Nhập khối lượng nhập kho (grams): "); 
-                    double weight = scanner.nextDouble();
-                    
-                    inventory.addTea(new Tea(teaId, teaType, weight));
-                    break;
-
-                case 2:
-                    System.out.println("\n--- NHẬP THÔNG TIN ẤM TRÀ ---");
-                    System.out.print("Nhập mã Ấm (ID): "); 
-                    String potId = scanner.nextLine();
-                    System.out.print("Nhập tên Ấm trà (VD: Ấm Tây Thi): "); 
-                    String potName = scanner.nextLine();
-                    
-                    System.out.println("Chọn chất liệu chế tác ấm:");
-                    Material[] materials = Material.values();
-                    for (int i = 0; i < materials.length; i++) {
-                        System.out.println("  " + (i + 1) + ". " + materials[i].getDisplayName());
-                    }
-                    System.out.print("Nhập số tương ứng (1-" + materials.length + "): ");
-                    int matChoice = scanner.nextInt();
-                    
-                    if (matChoice < 1 || matChoice > materials.length) {
-                        System.out.println("Lựa chọn sai! Mặc định chọn chất liệu đầu tiên.");
-                        matChoice = 1;
-                    }
-                    Material selectedMaterial = materials[matChoice - 1];
-
-                    System.out.print("Nhập dung tích ấm (ml): "); 
-                    double capacity = scanner.nextDouble();
-                    
-                    inventory.addTeapot(new Teapot(potId, potName, selectedMaterial, capacity));
-                    break;
-
-                case 3:
-                    inventory.checkStock();
-                    break;
-
-                case 0:
-                    System.out.println("\n>> Đang đóng hệ thống và bảo mật dữ liệu. Tạm biệt!");
-                    break;
-
-                default:
-                    System.out.println("Lựa chọn không hợp lệ! Vui lòng chọn lại từ 0 đến 3.");
+                case 1: menuTra.hienThi(); break;
+                case 2: menuAm.hienThi(); break;
+                case 0: System.out.println("Cảm ơn bạn đã sử dụng! 👋"); break;
+                default: System.out.println("❌ Lựa chọn sai!");
             }
-            System.out.println();
         } while (choice != 0);
-
-    }
-}
-
-    // ==================== MENU CON ====================
-
-    private void menuQuanLyTra() {
-        System.out.println("\n--- QUẢN LÝ TRÀ ---");
-        System.out.println("1. Thêm trà mới");
-        System.out.println("2. Xem danh sách trà");
-        System.out.println("3. Tìm trà");
-        System.out.println("4. Sửa trà");
-        System.out.println("5. Xóa trà");
-        System.out.println("0. Quay lại");
-        System.out.print("Chọn: ");
-        // Tạm thời chưa làm chi tiết
-        scanner.nextLine();
-    }
-
-    private void menuQuanLyAmTra() {
-        System.out.println("\n--- QUẢN LÝ ẤM TRÀ ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    private void menuQuanLyDoDung() {
-        System.out.println("\n--- QUẢN LÝ ĐỒ DÙNG ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    private void menuQuanLyKho() {
-        System.out.println("\n--- QUẢN LÝ KHO HÀNG ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    private void menuTimKiem() {
-        System.out.println("\n--- TÌM KIẾM ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    private void menuThongKe() {
-        System.out.println("\n--- THỐNG KÊ ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    private void menuXuatNhap() {
-        System.out.println("\n--- XUẤT / NHẬP DỮ LIỆU ---");
-        System.out.println("Chức năng đang phát triển...");
-        scanner.nextLine();
-    }
-
-    // Hàm hỗ trợ nhập số an toàn
-    private int nhapSo() {
-        while (!scanner.hasNextInt()) {
-            System.out.print("Vui lòng nhập một số: ");
-            scanner.next();
-        }
-        int so = scanner.nextInt();
-        scanner.nextLine(); // xóa dòng thừa
-        return so;
-    }
-
-    private void clearScreen() {
-        System.out.print("\033[H\033[2J");  // Xóa màn hình (có thể không hoạt động trên mọi máy)
-        System.out.flush();
     }
 }
