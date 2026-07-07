@@ -1,0 +1,41 @@
+public class BrewingRecipe {
+    private Tea tea;
+    private Teapot teapot;
+    private int teaGram;
+    private int waterMl;
+    private int temperature;
+    private int timeSecond;
+
+    public BrewingRecipe(Tea tea, Teapot teapot, int teaGram, int waterMl, int temperature, int timeSecond) {
+        this.tea = tea;
+        this.teapot = teapot;
+        this.teaGram = teaGram;
+        this.waterMl = waterMl;
+        this.temperature = temperature;
+        this.timeSecond = timeSecond;
+    }
+
+    public Tea getTea() {
+        return tea;
+    }
+
+    public Teapot getTeapot() {
+        return teapot;
+    }
+
+    public int getTeaGram() {
+        return teaGram;
+    }
+
+    public int getWaterMl() {
+        return waterMl;
+    }
+
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public int getTimeSecond() {
+        return timeSecond;
+    }
+}
