@@ -16,7 +16,7 @@ public abstract class Utensil {
     public Utensil() {
     }
 
-    public Utensil(String id, String name,  material) {
+    public Utensil(String id, String name, Material material) {
         this.id = id;
         this.name = name;
         this.material = material;
