@@ -24,18 +24,18 @@ public class TeapotRepository {
             }
             writer.flush();
         } catch (IOException e) {
-            System.out.println("[Lỗi] Không thể ghi file tạm cho Ấm trà: " + e.getMessage());
+            System.out.println("[Lỗi File I/O] Không thể tạo file tạm cho Ấm: " + e.getMessage());
             return;
         }
 
         try {
             Files.move(tmpFile.toPath(), Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(">> Đã cập nhật file dữ liệu Ấm trà an toàn.");
+            System.out.println(">> Ghi file dữ liệu Ấm trà ổn định.");
         } catch (IOException e) {
-            System.out.println("[Lỗi] Không thể ghi đè file chính cho Ấm trà: " + e.getMessage());
+            System.out.println("[Lỗi Hệ Thống] Ghi đè file chính thất bại: " + e.getMessage());
         }
     }
-
+    
     public List<Teapot> loadAll() {
         List<Teapot> teapots = new ArrayList<>();
         File file = new File(FILE_NAME);
@@ -53,37 +53,37 @@ public class TeapotRepository {
                         Material material = Material.valueOf(parts[2]);
                         double capacity = Double.parseDouble(parts[3]);
                         teapots.add(new Teapot(id, name, material, capacity));
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("[Cảnh báo] Bỏ qua dòng Ấm trà lỗi định dạng số hoặc lỗi Enum: " + line);
+                    } catch (Exception e) {
+                        System.out.println("[Cảnh báo dữ liệu] Bỏ qua 1 dòng Ấm trà bị lỗi định dạng: " + line);
                     }
                 }
             }
         } catch (Exception e) {
-            System.out.println("[Lỗi] Không thể đọc file Ấm trà: " + e.getMessage());
+            System.out.println("[Lỗi Đọc File] Không thể nạp dữ liệu Ấm trà: " + e.getMessage());
         }
         return teapots;
     }
 
     public String backup() {
         File mainFile = new File(FILE_NAME);
-        if (!mainFile.exists()) return "Không có dữ liệu Ấm trà để sao lưu.";
+        if (!mainFile.exists() || mainFile.length() == 0) return "Không có dữ liệu Ấm trà để sao lưu.";
 
         try {
             Files.createDirectories(Paths.get(BACKUP_DIR));
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            String backupFileName = BACKUP_DIR + "teapots_" + timestamp + ".bak";
+            String backupPath = BACKUP_DIR + "teapots_" + timestamp + ".bak";
             
-            Files.copy(mainFile.toPath(), Paths.get(backupFileName), StandardCopyOption.REPLACE_EXISTING);
-            return "Sao lưu Ấm trà thành công -> " + backupFileName;
+            Files.copy(mainFile.toPath(), Paths.get(backupPath), StandardCopyOption.REPLACE_EXISTING);
+            return "Sao lưu dữ liệu Ấm trà thành công -> " + backupPath;
         } catch (IOException e) {
-            return "Lỗi khi sao lưu dữ liệu Ấm trà: " + e.getMessage();
+            return "Lỗi khi sao lưu Ấm trà: " + e.getMessage();
         }
     }
 
     public boolean restore(String backupFilePath) {
         File backupFile = new File(backupFilePath);
         if (!backupFile.exists()) {
-            System.out.println("[Lỗi] File sao lưu ấm trà không tồn tại!");
+            System.out.println("[Lỗi] File sao lưu Ấm trà không tồn tại!");
             return false;
         }
         try {
