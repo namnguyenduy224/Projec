@@ -119,4 +119,14 @@ public class Inventory {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
+    public static Inventory createEmptyInventory() {
+        return new Inventory();
+    }
+    public void restoreTeapot(String filePath, boolean fixSync) {
+        if (fixSync && teapotRepository.restore(filePath)) {
+            this.teapots = teapotRepository.loadAll();
+            System.out.println(">> [Hệ thống] Đã sửa lỗi đồng bộ: Danh sách Ấm trà đã cập nhật chính xác trên RAM.");
+        }
+    }
 }
