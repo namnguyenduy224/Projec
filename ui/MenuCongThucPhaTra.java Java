@@ -1,0 +1,45 @@
+package ui;
+
+import java.util.Scanner;
+import services.BrewingService;   // Hoặc IBrewingService
+
+public class MenuCongThucPhaTra {
+    private BrewingService brewingService;
+    private Scanner scanner = new Scanner(System.in);
+
+    public MenuCongThucPhaTra(BrewingService brewingService) {
+        this.brewingService = brewingService;
+    }
+
+    public void hienThi() {
+        int choice;
+        do {
+            System.out.println("\n" + "=".repeat(45));
+            System.out.println("         MENU CÔNG THỨC PHA TRÀ");
+            System.out.println("=".repeat(45));
+            System.out.println("1. Xem danh sách công thức");
+            System.out.println("2. Thêm công thức pha mới");
+            System.out.println("3. Xem chi tiết công thức");
+            System.out.println("4. Chỉnh sửa công thức");
+            System.out.println("5. Xóa công thức");
+            System.out.println("6. Thử pha theo công thức");
+            System.out.println("0. Quay lại Menu Chính");
+            System.out.println("=".repeat(45));
+            System.out.print("Chọn chức năng: ");
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1: brewingService.hienThiTatCaCongThuc(); break;
+                case 2: brewingService.themCongThuc(); break;
+                case 3: brewingService.xemChiTiet(); break;
+                case 4: brewingService.capNhatCongThuc(); break;
+                case 5: brewingService.xoaCongThuc(); break;
+                case 6: brewingService.thuPhaTra(); break;
+                case 0: System.out.println("← Quay lại..."); break;
+                default: System.out.println("❌ Lựa chọn không hợp lệ!");
+            }
+        } while (choice != 0);
+    }
+}
