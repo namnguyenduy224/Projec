@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class TeapotRepository {
     
-    private final String FILE_NAME = "teapots.txt";
+   private final String FILE_NAME = "teapots.txt";
     private final String BACKUP_DIR = "backup/teapots/";
 
     public void saveAll(List<Teapot> teapots) {
@@ -30,12 +30,11 @@ public class TeapotRepository {
 
         try {
             Files.move(tmpFile.toPath(), Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(">> Ghi file dữ liệu Ấm trà ổn định.");
         } catch (IOException e) {
             System.out.println("[Lỗi Hệ Thống] Ghi đè file chính thất bại: " + e.getMessage());
         }
     }
-    
+
     public List<Teapot> loadAll() {
         List<Teapot> teapots = new ArrayList<>();
         File file = new File(FILE_NAME);
@@ -48,13 +47,9 @@ public class TeapotRepository {
                 String[] parts = line.split(",");
                 if (parts.length == 4) {
                     try {
-                        String id = parts[0];
-                        String name = parts[1];
-                        Material material = Material.valueOf(parts[2]);
-                        double capacity = Double.parseDouble(parts[3]);
-                        teapots.add(new Teapot(id, name, material, capacity));
+                        teapots.add(new Teapot(parts[0], parts[1], Material.valueOf(parts[2]), Double.parseDouble(parts[3])));
                     } catch (Exception e) {
-                        System.out.println("[Cảnh báo dữ liệu] Bỏ qua 1 dòng Ấm trà bị lỗi định dạng: " + line);
+                        System.out.println("[Cảnh báo] Dòng Ấm lỗi định dạng: " + line);
                     }
                 }
             }
@@ -72,7 +67,6 @@ public class TeapotRepository {
             Files.createDirectories(Paths.get(BACKUP_DIR));
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String backupPath = BACKUP_DIR + "teapots_" + timestamp + ".bak";
-            
             Files.copy(mainFile.toPath(), Paths.get(backupPath), StandardCopyOption.REPLACE_EXISTING);
             return "Sao lưu dữ liệu Ấm trà thành công -> " + backupPath;
         } catch (IOException e) {
@@ -88,7 +82,6 @@ public class TeapotRepository {
         }
         try {
             Files.copy(backupFile.toPath(), Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(">> Phục hồi file dữ liệu Ấm trà thành công.");
             return true;
         } catch (IOException e) {
             System.out.println("[Lỗi] Không thể phục hồi dữ liệu Ấm trà: " + e.getMessage());
