@@ -30,7 +30,6 @@ public class TeaRepository {
 
         try {
             Files.move(tmpFile.toPath(), Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(">> Ghi file dữ liệu Trà ổn định.");
         } catch (IOException e) {
             System.out.println("[Lỗi Hệ Thống] Ghi đè file chính thất bại: " + e.getMessage());
         }
@@ -50,7 +49,7 @@ public class TeaRepository {
                     try {
                         teas.add(new Tea(parts[0], parts[1], Double.parseDouble(parts[2])));
                     } catch (NumberFormatException e) {
-                        System.out.println("[Cảnh báo dữ liệu] Bỏ qua 1 dòng Trà lỗi định dạng số: " + line);
+                        System.out.println("[Cảnh báo] Dòng Trà lỗi định dạng số: " + line);
                     }
                 }
             }
@@ -68,7 +67,6 @@ public class TeaRepository {
             Files.createDirectories(Paths.get(BACKUP_DIR));
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String backupPath = BACKUP_DIR + "teas_" + timestamp + ".bak";
-            
             Files.copy(mainFile.toPath(), Paths.get(backupPath), StandardCopyOption.REPLACE_EXISTING);
             return "Sao lưu dữ liệu Trà thành công -> " + backupPath;
         } catch (IOException e) {
@@ -84,7 +82,6 @@ public class TeaRepository {
         }
         try {
             Files.copy(backupFile.toPath(), Paths.get(FILE_NAME), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println(">> Phục hồi file dữ liệu Trà thành công.");
             return true;
         } catch (IOException e) {
             System.out.println("[Lỗi] Không thể phục hồi dữ liệu Trà: " + e.getMessage());
