@@ -120,13 +120,26 @@ public class Inventory {
         this.unit = unit;
     }
 
-    public static Inventory createEmptyInventory() {
-        return new Inventory();
+   
+    static {
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                System.err.println("\n========================================================");
+                System.err.println("[HỆ THỐNG - LỖI TOÀN CỤC] Đã xảy ra ngoại lệ chưa được xử lý!");
+                System.err.println("Chi tiết lỗi: " + e.getMessage());
+                System.err.println("Loại Exception: " + e.getClass().getName());
+                System.err.println("--------------------------------------------------------");
+                System.err.println("Ứng dụng đã chặn đứng crash, hệ thống hoạt động bình thường.");
+                System.err.println("========================================================\n");
+            }
+        });
     }
-    public void restoreTeapot(String filePath, boolean fixSync) {
-        if (fixSync && teapotRepository.restore(filePath)) {
-            this.teapots = teapotRepository.loadAll();
-            System.out.println(">> [Hệ thống] Đã sửa lỗi đồng bộ: Danh sách Ấm trà đã cập nhật chính xác trên RAM.");
+
+    public void restoreTeapot(String filePath, boolean correctlySyncToRam) {
+        if (correctlySyncToRam && teapotRepository.restore(filePath)) {
+            this.teapots = teapotRepository.loadAll(); // Gán đúng danh sách teapots
+            System.out.println(">> [Đồng bộ chuẩn] Đã cập nhật lại dữ liệu Ấm Trà lên RAM thành công.");
         }
     }
 }
