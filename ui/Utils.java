@@ -8,7 +8,6 @@ public class Utils {
     public static final String YELLOW = "\u001B[33m";
     public static final String RED = "\u001B[31m";
     public static final String BLUE = "\u001B[34m";
-    public static final String PURPLE = "\u001B[35m";
 
     public static void printHeader(String title) {
         System.out.println("\n" + "=".repeat(70));
@@ -30,6 +29,6 @@ public class Utils {
 
     public static void printPagination(int current, int total) {
         System.out.println(YELLOW + "\nTrang " + current + "/" + total + 
-                          " | Nhấn số trang hoặc Enter (tiếp) hoặc 0 (quay lại)" + RESET);
+                          " | Enter = tiếp | 0 = quay lại" + RESET);
     }
 }
