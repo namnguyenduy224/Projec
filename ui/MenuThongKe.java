@@ -1,11 +1,10 @@
 package ui;
-
 import java.util.Scanner;
-import services.StatisticService;   // Hoặc IStatisticService
+import services.StatisticService;
 
 public class MenuThongKe {
     private StatisticService statisticService;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     public MenuThongKe(StatisticService statisticService) {
         this.statisticService = statisticService;
@@ -14,29 +13,25 @@ public class MenuThongKe {
     public void hienThi() {
         int choice;
         do {
-            System.out.println("\n" + "=".repeat(45));
-            System.out.println("              MENU THỐNG KÊ");
-            System.out.println("=".repeat(45));
-            System.out.println("1. Thống kê tồn kho");
-            System.out.println("2. Thống kê số lượng trà/ấm");
-            System.out.println("3. Thống kê công thức phổ biến");
-            System.out.println("4. Báo cáo doanh thu (nếu có)");
-            System.out.println("5. Xuất báo cáo thống kê");
-            System.out.println("0. Quay lại Menu Chính");
-            System.out.println("=".repeat(45));
-            System.out.print("Chọn chức năng: ");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            Utils.printHeader("MENU THỐNG KÊ");
+            Utils.printOption(1, "Thống kê tồn kho");
+            Utils.printOption(2, "Thống kê số lượng trà & ấm");
+            Utils.printOption(3, "Công thức pha phổ biến");
+            Utils.printOption(4, "Báo cáo tổng hợp");
+            Utils.printOption(5, "Xuất báo cáo ra file");
+            Utils.printOption(0, "Quay lại Menu Chính");
+            Utils.printFooter();
+            System.out.print("Chọn → ");
+            choice = sc.nextInt(); sc.nextLine();
 
             switch (choice) {
                 case 1: statisticService.thongKeTonKho(); break;
                 case 2: statisticService.thongKeSoLuong(); break;
                 case 3: statisticService.thongKeCongThuc(); break;
-                case 4: statisticService.baoCaoDoanhThu(); break;
+                case 4: statisticService.baoCaoTongHop(); break;
                 case 5: statisticService.xuatBaoCao(); break;
-                case 0: System.out.println("← Quay lại..."); break;
-                default: System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0: System.out.println(Utils.GREEN + "← Quay lại..." + Utils.RESET); break;
+                default: System.out.println(Utils.RED + "❌ Sai lựa chọn!" + Utils.RESET);
             }
         } while (choice != 0);
     }
