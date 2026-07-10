@@ -1,11 +1,10 @@
 package ui;
-
 import java.util.Scanner;
-import services.BrewingService;   // Hoặc IBrewingService
+import services.BrewingService;
 
 public class MenuCongThucPhaTra {
     private BrewingService brewingService;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     public MenuCongThucPhaTra(BrewingService brewingService) {
         this.brewingService = brewingService;
@@ -14,21 +13,17 @@ public class MenuCongThucPhaTra {
     public void hienThi() {
         int choice;
         do {
-            System.out.println("\n" + "=".repeat(45));
-            System.out.println("         MENU CÔNG THỨC PHA TRÀ");
-            System.out.println("=".repeat(45));
-            System.out.println("1. Xem danh sách công thức");
-            System.out.println("2. Thêm công thức pha mới");
-            System.out.println("3. Xem chi tiết công thức");
-            System.out.println("4. Chỉnh sửa công thức");
-            System.out.println("5. Xóa công thức");
-            System.out.println("6. Thử pha theo công thức");
-            System.out.println("0. Quay lại Menu Chính");
-            System.out.println("=".repeat(45));
-            System.out.print("Chọn chức năng: ");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            Utils.printHeader("MENU CÔNG THỨC PHA TRÀ");
+            Utils.printOption(1, "Xem tất cả công thức (phân trang)");
+            Utils.printOption(2, "Thêm công thức mới");
+            Utils.printOption(3, "Xem chi tiết công thức");
+            Utils.printOption(4, "Chỉnh sửa công thức");
+            Utils.printOption(5, "Xóa công thức");
+            Utils.printOption(6, "Thử pha trà theo công thức");
+            Utils.printOption(0, "Quay lại Menu Chính");
+            Utils.printFooter();
+            System.out.print("Chọn → ");
+            choice = sc.nextInt(); sc.nextLine();
 
             switch (choice) {
                 case 1: brewingService.hienThiTatCaCongThuc(); break;
@@ -37,8 +32,8 @@ public class MenuCongThucPhaTra {
                 case 4: brewingService.capNhatCongThuc(); break;
                 case 5: brewingService.xoaCongThuc(); break;
                 case 6: brewingService.thuPhaTra(); break;
-                case 0: System.out.println("← Quay lại..."); break;
-                default: System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0: System.out.println(Utils.GREEN + "← Quay lại..." + Utils.RESET); break;
+                default: System.out.println(Utils.RED + "❌ Sai lựa chọn!" + Utils.RESET);
             }
         } while (choice != 0);
     }
