@@ -1,11 +1,10 @@
 package ui;
-
 import java.util.Scanner;
 import services.SearchService;
 
 public class MenuTimKiem {
     private SearchService searchService;
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
     public MenuTimKiem(SearchService searchService) {
         this.searchService = searchService;
@@ -14,20 +13,16 @@ public class MenuTimKiem {
     public void hienThi() {
         int choice;
         do {
-            System.out.println("\n" + "=".repeat(45));
-            System.out.println("              MENU TÌM KIẾM");
-            System.out.println("=".repeat(45));
-            System.out.println("1. Tìm trà theo tên");
-            System.out.println("2. Tìm ấm theo tên/loại");
-            System.out.println("3. Tìm theo nguyên liệu");
-            System.out.println("4. Tìm công thức pha");
-            System.out.println("5. Tìm kiếm nâng cao");
-            System.out.println("0. Quay lại Menu Chính");
-            System.out.println("=".repeat(45));
-            System.out.print("Chọn chức năng: ");
-
-            choice = scanner.nextInt();
-            scanner.nextLine();
+            Utils.printHeader("MENU TÌM KIẾM NÂNG CAO");
+            Utils.printOption(1, "Tìm trà theo tên/loại");
+            Utils.printOption(2, "Tìm ấm theo tên/dung tích");
+            Utils.printOption(3, "Tìm theo nguyên liệu");
+            Utils.printOption(4, "Tìm công thức pha");
+            Utils.printOption(5, "Tìm kiếm nâng cao (kết hợp)");
+            Utils.printOption(0, "Quay lại Menu Chính");
+            Utils.printFooter();
+            System.out.print("Chọn → ");
+            choice = sc.nextInt(); sc.nextLine();
 
             switch (choice) {
                 case 1: searchService.timTra(); break;
@@ -35,8 +30,8 @@ public class MenuTimKiem {
                 case 3: searchService.timNguyenLieu(); break;
                 case 4: searchService.timCongThuc(); break;
                 case 5: searchService.timKiemNangCao(); break;
-                case 0: System.out.println("← Quay lại..."); break;
-                default: System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0: System.out.println(Utils.GREEN + "← Quay lại..." + Utils.RESET); break;
+                default: System.out.println(Utils.RED + "❌ Sai lựa chọn!" + Utils.RESET);
             }
         } while (choice != 0);
     }
